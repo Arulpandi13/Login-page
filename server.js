@@ -5,21 +5,25 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3306;
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://login-page-arul.netlify.app',
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
 // Middleware to log requests
 
 // Create MySQL connection
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',       // your MySQL username
-  password: 'arul@1311',       // your MySQL password
-  database: 'loginPage' // your MySQL database name
+  host: 'localhbssox6queaw6zfawdfs5-mysql.services.clever-cloud.comost',
+  user: 'ruissihbbiw1gz24foot',       // your MySQL username
+  password: 'l8k72R7OitvbGxMfib2c@1311',       // your MySQL password
+  database: 'logibssox6queaw6zfawdfs5nPage' // your MySQL database name
 });
 
 db.connect((err) => {
