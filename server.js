@@ -69,6 +69,9 @@ app.get('/login', (req, res) => {
 });
 
 
+app.options('*', cors());
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
