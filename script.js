@@ -22,7 +22,8 @@ registerForm.addEventListener('submit', function (e) {
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value.trim();
 
-    fetch("http://localhost:3000/register", {
+    fetch("https://login-backend-arul.onrender.com/register"
+, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -109,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ✅ Fetch with GET + Query Params
-    fetch(`http://localhost:3000/login?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`)
+    fetch(`https://login-backend-arul.onrender.com/login?username=...`)
       .then(res => {
         if (!res.ok) throw new Error("Invalid login");
         return res.text();
