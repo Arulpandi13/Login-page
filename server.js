@@ -1,29 +1,24 @@
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
-const path = require('path');
 const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 app.use(cors({
   origin: 'https://login-page-arul.netlify.app',
-  methods: ['POST'],
-  credentials: true
+  methods: ['GET', 'POST', 'OPTIONS']
 }));
-// Middleware to log requests
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// Create MySQL connection
+// MySQL connection
 const db = mysql.createConnection({
   host: 'bssox6queaw6zfawdfs5-mysql.services.clever-cloud.com',
-  user: 'ruissihbbiw1gz24foot',       // your MySQL username
-  password: 'l8k72R7OitvbGxMfib2c@1311',       // your MySQL password
-  database: 'logibssox6queaw6zfawdfs5nPage' // your MySQL database name
+  user: 'ruissihbbiw1gz24foot',
+  password: 'l8k72R7OitvbGxMfib2c@1311',
+  database: 'logibssox6queaw6zfawdfs5nPage' // ✅ Check this again
 });
 
 db.connect((err) => {
@@ -34,11 +29,9 @@ db.connect((err) => {
   }
 });
 
-// Register user
+// Register endpoint
 app.post('/register', (req, res) => {
   const { username, email, password } = req.body;
-  console.log('Registration attempt:', { username, email, password });
-  // Check for empty fields
   const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
   db.query(sql, [username, email, password], (err, result) => {
     if (err) return res.status(500).json({ message: 'Database error' });
@@ -46,26 +39,20 @@ app.post('/register', (req, res) => {
   });
 });
 
-// Login user
+// Login endpoint
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
   const sql = "SELECT * FROM users WHERE username = ? AND password = ?";
   db.query(sql, [username, password], (err, result) => {
-    if (err) return res.status(500).send("Server error");
+    if (err) return res.status(500).json({ message: 'Server error' });
     if (result.length > 0) {
-      res.send("success");
+      res.json({ message: 'success' });
     } else {
-      res.status(401).send("Invalid username or password");
+      res.status(401).json({ message: 'Invalid username or password' });
     }
   });
 });
 
-
-app.options('*', cors());
-
-
-// Start the server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
-
