@@ -6,19 +6,23 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// ✅ Enable CORS for Netlify frontend
 app.use(cors({
   origin: 'https://login-page-arul.netlify.app',
-  methods: ['GET', 'POST', 'OPTIONS']
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+  credentials: true // optional, required if using cookies/sessions
 }));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// MySQL connection
+// ✅ MySQL connection
 const db = mysql.createConnection({
   host: 'bssox6queaw6zfawdfs5-mysql.services.clever-cloud.com',
   user: 'ruissihbbiw1gz24foot',
   password: 'l8k72R7OitvbGxMfib2c@1311',
-  database: 'logibssox6queaw6zfawdfs5nPage' // ✅ Check this again
+  database: 'logibssox6queaw6zfawdfs5nPage'
 });
 
 db.connect((err) => {
@@ -29,9 +33,12 @@ db.connect((err) => {
   }
 });
 
-// Register endpoint
+// ✅ Register endpoint
 app.post('/register', (req, res) => {
   const { username, email, password } = req.body;
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
   const sql = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
   db.query(sql, [username, email, password], (err, result) => {
     if (err) return res.status(500).json({ message: 'Database error' });
@@ -39,7 +46,7 @@ app.post('/register', (req, res) => {
   });
 });
 
-// Login endpoint
+// ✅ Login endpoint
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
   const sql = "SELECT * FROM users WHERE username = ? AND password = ?";
