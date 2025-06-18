@@ -110,11 +110,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ✅ Fetch with GET + Query Params
-    fetch(`https://login-backend-arul.onrender.com/login?username=${username}&password=${password}`)
-      .then(res => {
-        if (!res.ok) throw new Error("Invalid login");
-        return res.text();
-      })
+  fetch("https://login-backend-arul.onrender.com/login", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ username, password })
+})
       .then(data => {
         if (data === 'success') {
           Swal.fire({

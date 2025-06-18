@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({
   origin: 'https://login-page-arul.netlify.app',
-  methods: ['GET', 'POST'],
+  methods: ['POST'],
   credentials: true
 }));
 // Middleware to log requests
@@ -47,25 +47,17 @@ app.post('/register', (req, res) => {
 });
 
 // Login user
-app.get('/login', (req, res) => {
-    const username = req.query.username;
-    const password = req.query.password;
-
-    console.log("Login attempt:", username, password);
-
-    const sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-    db.query(sql, [username, password], (err, result) => {
-        if (err) {
-            console.error("SQL Error:", err);
-            return res.status(500).send("Server error");
-        }
-
-        if (result.length > 0) {
-            res.send("success");
-        } else {
-            res.status(401).send("Invalid username or password");
-        }
-    });
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  const sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+  db.query(sql, [username, password], (err, result) => {
+    if (err) return res.status(500).send("Server error");
+    if (result.length > 0) {
+      res.send("success");
+    } else {
+      res.status(401).send("Invalid username or password");
+    }
+  });
 });
 
 
