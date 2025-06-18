@@ -7,18 +7,19 @@ app.options('*', cors());
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ Enable CORS for Netlify frontend
+// CORS middleware
 app.use(cors({
   origin: 'https://login-page-arul.netlify.app',
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
   credentials: true // optional, required if using cookies/sessions
 }));
 
+// Body parsers
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// ✅ MySQL connection
+// MySQL connection
 const db = mysql.createConnection({
   host: 'bssox6queaw6zfawdfs5-mysql.services.clever-cloud.com',
   user: 'ruissihbbiw1gz24foot',
@@ -34,7 +35,7 @@ db.connect((err) => {
   }
 });
 
-// ✅ Register endpoint
+// Register
 app.post('/register', (req, res) => {
   const { username, email, password } = req.body;
   if (!username || !email || !password) {
@@ -47,7 +48,7 @@ app.post('/register', (req, res) => {
   });
 });
 
-// ✅ Login endpoint
+// Login
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
   const sql = "SELECT * FROM users WHERE username = ? AND password = ?";
@@ -62,5 +63,5 @@ app.post('/login', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
