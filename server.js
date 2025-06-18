@@ -5,7 +5,7 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3306;
+const PORT = process.env.PORT || 3000;
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -20,7 +20,7 @@ app.use(cors({
 
 // Create MySQL connection
 const db = mysql.createConnection({
-  host: 'localhbssox6queaw6zfawdfs5-mysql.services.clever-cloud.comost',
+  host: 'bssox6queaw6zfawdfs5-mysql.services.clever-cloud.com',
   user: 'ruissihbbiw1gz24foot',       // your MySQL username
   password: 'l8k72R7OitvbGxMfib2c@1311',       // your MySQL password
   database: 'logibssox6queaw6zfawdfs5nPage' // your MySQL database name

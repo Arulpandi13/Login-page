@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ✅ Fetch with GET + Query Params
-    fetch(`https://login-backend-arul.onrender.com/login?username=...`)
+    fetch(`https://login-backend-arul.onrender.com/login?username=${username}&password=${password}`)
       .then(res => {
         if (!res.ok) throw new Error("Invalid login");
         return res.text();
