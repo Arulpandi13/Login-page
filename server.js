@@ -2,16 +2,19 @@ const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-app.options('*', cors()); 
-
 const app = express();
-const PORT = process.env.PORT || 3000;
+app.options('*', cors()); 
+app.use(express.json());
+
+
+const PORT = process.env.PORT || 3001
+;
 
 // CORS middleware
 app.use(cors({
   origin: 'https://login-page-arul.netlify.app',
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type'],
+  // methods: ['GET', 'POST', 'OPTIONS'],
+  // allowedHeaders: ['Content-Type'],
   credentials: true // optional, required if using cookies/sessions
 }));
 
